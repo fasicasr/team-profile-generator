@@ -1,6 +1,6 @@
 const Employee = require("../lib/employee");
 
-describe("Employee", () => { //doesn't have exacution just used to group 
+describe("Employee", () => { //doesn't have execution just used to group 
   describe("Initialization", () => {
     //after all the groups are created, it block takes a string to define what the test is for. Then => 
         // it("should return an object of employee", () => {
