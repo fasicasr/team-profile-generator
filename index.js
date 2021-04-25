@@ -145,7 +145,7 @@ function init_intern() {
     });
 }//closed init_intern()
 
-// TODO: Create a function to write README file
+// TODO: Create a function to write sample.html file
 function writeToFile() {
     fileName = 'dist/sample.html'
     let data1 =
