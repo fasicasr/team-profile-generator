@@ -147,7 +147,7 @@ function init_intern() {
 
 // TODO: Create a function to write README file
 function writeToFile() {
-    fileName = 'Sample.html'
+    fileName = 'dist/sample.html'
     let data1 =
         `<!DOCTYPE html>
        <html lang="en">
