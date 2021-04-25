@@ -161,7 +161,7 @@ function writeToFile() {
        <body>
            <div class="jumbotron jumbotron-fluid">
                <div class="container">
-               <h1 class="display-6">My Team</h1>
+               <h1 class="text-center display-6">My Team</h1>
                <p class="lead">Look before for contact information</p>
                </div>
            </div>`
@@ -176,7 +176,7 @@ function writeToFile() {
                     </div>
                     <ul class="list-group list-group-flush">
                     <li class="list-group-item">ID: ${teamMember[i].id}</li>
-                    <li class="list-group-item">Email:${teamMember[i].email}</li>
+                    <li class="list-group-item">Email: <a href="mailto:${teamMember[i].email}">${teamMember[i].email}</a></li>
                     <li class="list-group-item">Office Number: ${teamMember[i].officenumber}</li>
                     </ul>
                 </div>`
@@ -189,7 +189,7 @@ function writeToFile() {
                     <ul class="list-group list-group-flush">
                     <li class="list-group-item">ID: ${teamMember[i].id}</li>
                     <li class="list-group-item">Email:${teamMember[i].email}</li>
-                    <li class="list-group-item">Github: ${teamMember[i].github}</li>
+                    <li class="list-group-item">Github: <a href="https://github.com/${teamMember[i].github}" target="_blank">${teamMember[i].github}</a></li>
                 </ul>
                 </div>`
             } else if (teamMember[i] instanceof Intern) {
