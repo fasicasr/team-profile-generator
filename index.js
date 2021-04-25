@@ -1,193 +1,220 @@
 // TODO: Include packages needed for this application
 const inquirer = require('inquirer');
 const fs = require('fs');
-//const Manager = require("../lib/manager");
-
+const Manager = require('./lib/manager')
+const Engineer = require('./lib/engineer')
+const Intern = require('./lib/intern')
+let teamMember = [];
 
 // TODO: Create a function to initialize app
 function init() {
     // An array of questions for user input
-    inquirer.prompt ([
+    inquirer.prompt([
         {
-            type:'input',
+            type: 'input',
             message: 'What is the team managers name?',
             name: 'name',
         },
         {
-            type:'input',
+            type: 'input',
             message: 'What is your employee ID numer?',
             name: 'id',
         },
         {
-            type:'input',
+            type: 'input',
             message: 'What is your email?',
             name: 'email',
         },
         {
-            type:'input',
+            type: 'input',
             message: 'What is your office number?',
             name: 'officenumber',
         },
         {
-            type:'list',
+            type: 'list',
             message: 'Select team members to add or finish',
             name: 'members',
             choices: ['Engineer', 'Intern', 'finish'],
         },
-    ]).then(response => { 
-        //passed all the information above to the html manger section
-       //var data = [response.name, response.id, response.email, response.officenumber]
-       //const obj = new Manager(response.name, response.id, response.email, response.officenumber);
-        //writeToHtml('manager', data) //take data to push to html file
-        if (response.members ==='Engineer') {
+    ]).then(response => {
+        const manager = new Manager(response.name, response.id, response.email, response.officenumber)
+        teamMember.push(manager)
+        if (response.members === 'Engineer') {
             init_engineer()
-        } else if (response.members ==='Intern') {
+        } else if (response.members === 'Intern') {
             init_intern()
         } else {
-            const finish = 'sample.html';  
+            console.log('finish');
+            writeToFile()
         }
-    
-        
 
-        //writeToFile(fileName, data)
+
+
     });
-}//closed init()
+
+}
+
+
 function init_engineer() {
     // An array of questions for user input
-    inquirer.prompt ([
+    inquirer.prompt([
         {
-            type:'input',
+            type: 'input',
             message: 'What is the engineer name?',
             name: 'name',
         },
         {
-            type:'input',
+            type: 'input',
             message: 'What is the engineer\'s employee ID numer?',
             name: 'id',
         },
         {
-            type:'input',
+            type: 'input',
             message: 'Please enter the engineer\'s email?',
             name: 'email',
         },
         {
-            type:'input',
+            type: 'input',
             message: 'What is the engineer\'s Github username?',
             name: 'github',
         },
         {
-            type:'list',
+            type: 'list',
             message: 'Select team members to add or finish',
             name: 'members',
             choices: ['Engineer', 'Intern', 'finish'],
         },
-    ]).then(response => { 
-         //passed all the information above to the html engineer section
-        var data = [response.name, response.id, response.email, response.github]
-        writeToHtml('engineer', data)
-        if (response.members ==='Engineer') {
+    ]).then(response => {
+        const engineer = new Engineer(response.name, response.id, response.email, response.github)
+        teamMember.push(engineer)
+        if (response.members === 'Engineer') {
             init_engineer()
-        } else if (response.members ==='Intern') {
+        } else if (response.members === 'Intern') {
             init_intern()
         } else {
-         console.log('finish');  
+            console.log('finish');
+            writeToFile()
         }
-    
-        
 
-        //writeToFile(fileName, data)
+
     });
 }//closed init_engineer()
 function init_intern() {
     // An array of questions for user input
-    inquirer.prompt ([
+    inquirer.prompt([
         {
-            type:'input',
+            type: 'input',
             message: 'What is the inern\'s name?',
             name: 'name',
         },
         {
-            type:'input',
+            type: 'input',
             message: 'What is the intern\'s ID?',
             name: 'id',
         },
-    
+
         {
-            type:'input',
+            type: 'input',
             message: 'What is the intern\'s email?',
             name: 'email',
         },
         {
-            type:'input',
+            type: 'input',
             message: 'What school did the intern go to?',
             name: 'school',
         },
         {
-            type:'list',
+            type: 'list',
             message: 'Select team members to add or finish',
             name: 'members',
             choices: ['Engineer', 'Intern', 'finish'],
         },
-    ]).then(response => { 
-         //passed all the information above to the html intern section
-         var data = [response.name, response.id, response.email, response.school]
-         writeToHtml('intern', data)
-        if (response.members ==='Engineer') {
+    ]).then(response => {
+        const intern = new Intern(response.name, response.id, response.email, response.school)
+        teamMember.push(intern)
+        if (response.members === 'Engineer') {
             init_engineer()
-        } else if (response.members ==='Intern') {
+        } else if (response.members === 'Intern') {
             init_intern()
-        } else { 
-            console.log('finished!')
+        } else {
+            console.log('finish');
+            writeToFile()
         }
-    
-    
+
+
     });
 }//closed init_intern()
 
+// TODO: Create a function to write README file
+function writeToFile() {
+    fileName = 'Sample.html'
+    let data1 =
+        `<!DOCTYPE html>
+       <html lang="en">
+       <head>
+           <meta charset="UTF-8">
+           <meta http-equiv="X-UA-Compatible" content="IE=edge">
+           <meta name="viewport" content="width=device-width, initial-scale=1.0">
+           <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+           <title>Team Members</title>
+       </head>
+       <body>
+           <div class="jumbotron jumbotron-fluid">
+               <div class="container">
+               <h1 class="display-6">My Team</h1>
+               <p class="lead">Look before for contact information</p>
+               </div>
+           </div>`
+    let data2 = ''
+    let askQuestion = ''
+    for (i = 0; i < teamMember.length; i++) { 
+            if (teamMember[i] instanceof Manager) {
+                askQuestion = 
+                    `<div class="card text-black bg-info mb-3" style="width: 18rem;">
+                    <div class="card-header">
+                        Name:${teamMember[i].name} Manager
+                    </div>
+                    <ul class="list-group list-group-flush">
+                    <li class="list-group-item">ID: ${teamMember[i].id}</li>
+                    <li class="list-group-item">Email:${teamMember[i].email}</li>
+                    <li class="list-group-item">Office Number: ${teamMember[i].officenumber}</li>
+                    </ul>
+                </div>`
+            } else if (teamMember[i] instanceof Engineer) {
+                askQuestion = 
+                `<div class="card text-black bg-info mb-3" style="width: 18rem;">
+                    <div class="card-header">
+                        Name:${teamMember[i].name} Engineer
+                    </div>
+                    <ul class="list-group list-group-flush">
+                    <li class="list-group-item">ID: ${teamMember[i].id}</li>
+                    <li class="list-group-item">Email:${teamMember[i].email}</li>
+                    <li class="list-group-item">Github: ${teamMember[i].github}</li>
+                </ul>
+                </div>`
+            } else if (teamMember[i] instanceof Intern) {
+                askQuestion = 
+                `<div class="card text-black bg-info mb-3" style="width: 18rem;">
+                    <div class="card-header">
+                        Name:${teamMember[i].name} Intern
+                    </div>
+                    <ul class="list-group list-group-flush">
+                    <li class="list-group-item">ID: ${teamMember[i].id}</li>
+                    <li class="list-group-item">Email:${teamMember[i].email}</li>
+                    <li class="list-group-item">School: ${teamMember[i].school}</li>
+                </ul>
+                </div>`
+            }
+            data2 = data2+askQuestion
 
-// Create a function to write html files
-function writeToHtml(htmlName, data) {
-   if (htmlName === 'manager') {
-   //write the data to the manager html page
-   data[0]//using index to to pull properties of name, id etc
-   data[1]
-   }else if (htmlName === 'engineer'){
-     //write the data to the engineer html page  
-   }else if (htmlName === 'intern'){
-    //write the data to the intern html page  
-   }
-    
+    }
+
+    let data3 =
+        `</body>
+       </html>`;
+    data = data1 + data2 + data3
+    fs.writeFile(fileName, data, err =>
+        err ? console.log(err) : console.log('Generating!'));
 }
-
-
-
-// Function call to initialize app
 init();
 
-
-
-
-    // {
-        //     type:'input',
-        //     message: 'What is your Github username?',
-        //     name: 'github',
-        // },
-        // {
-        //     type:'input',
-        //     message: 'What school did you go to?',
-        //     name: 'school',
-        // },
-       
-        //Use of arrow function - Used data to concatenate the users response with the section headers. Used string to add github link and concatnated users github name to the link. 
-    // ]).then(response => {
-    //     const fileName = 'sample.html';
-    //     var data = '# ' + response.title + '\n' + response.license+ '\n';
-    //     data = data + '\n## Discription\n' + response.discription + '\n';
-    //     data = data + '\n## Table of Contents\n' + '-[Discriptions](#discription)' + '\n' + '-[Installation](#installation)' + '\n' + '-[Usage](#usage)' + '\n'+ '-[Test](#tests)' + '\n'  + '-[contribution](#Contribution)' + '\n'  + '-[License](#license)' + '\n';
-    //     data = data + '\n## Installation\n' + response.installation + '\n';
-    //     data = data + '\n## Usage\n' + response.usage + '\n';
-    //     data = data + '\n## Contribution\n' + response.contribution + '\n';
-    //     data = data + '\n## Tests\n' + response.test + '\n';
-    //     data = data + '\n## License\n' + 'Click on badge below to learn more about the license: \n' + response.license+ '\n';
-    //     data = data + '\n## Question\n' + 'Github:' + 'https://github.com/' + response.username+ '\n' + 'If you have any additional questions, please contact me at' + response.email+ '\n';
-    
