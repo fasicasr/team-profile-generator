@@ -147,7 +147,7 @@ function init_intern() {
 
 // TODO: Create a function to write sample.html file
 function writeToFile() {
-    fileName = 'dist/sample.html'
+    fileName = 'sample.html'
     let data1 =
         `<!DOCTYPE html>
        <html lang="en">
